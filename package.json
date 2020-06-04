@@ -1,0 +1,58 @@
+{
+  "name": "bavenir-agent",
+  "version": "1.0.0",
+  "description": "bAvenir agent plugin for VICINITY adapters",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "NODE_PATH=. node index.js",
+    "dev": "nodemon --ignore '**/*.json' index.js",
+    "test": "jest --coverage",
+    "analyze": "node sonar-scanner.js"
+  },
+  "keywords": [
+    "bAvenir",
+    "VICINITY",
+    "agent"
+  ],
+  "author": "Jorge Almela",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "got": "^11.1.4",
+    "mqtt": "^4.1.0",
+    "path": "^0.12.7",
+    "redis": "^3.0.2",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "jest-sonar-reporter": "^2.0.0",
+    "nodemon": "^2.0.4",
+    "sonarqube-scanner": "^2.6.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testResultsProcessor": "jest-sonar-reporter",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/_configuration/"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/_configuration/",
+      "/_test/"
+    ]
+  },
+  "jestSonar": {
+    "reportPath": "coverage",
+    "reportFile": "test-reporter.xml",
+    "indent": 4
+  }
+}

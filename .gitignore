@@ -1,0 +1,10 @@
+## General
+.env
+node_modules
+package-lock.json
+.DS_Store
+.scannerwork/
+coverage/
+test/
+_commands.sh
+*.sh
