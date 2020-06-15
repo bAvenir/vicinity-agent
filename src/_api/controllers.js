@@ -51,7 +51,7 @@ module.exports.reloadConfiguration = function(req, res){
 module.exports.registrations = function(req, res){
     let id = req.params.id || null; // If null => Use gtw credentials
     let logger = new Log();
-    persistance.getConfigDetail('registrations', id)
+    persistance.getItem('registrations', id)
     .then((response) => {
         res.json({error: false, message: response})
     })
@@ -78,7 +78,7 @@ module.exports.registrations = function(req, res){
 module.exports.propertiesGet = function(req, res){
     let id = req.params.id || null; // If null => Use gtw credentials
     let logger = new Log();
-    persistance.getConfigDetail('properties', id)
+    persistance.getItem('properties', id)
     .then((response) => {
         res.json({error: false, message: response})
     })
@@ -95,7 +95,7 @@ module.exports.propertiesGet = function(req, res){
 module.exports.propertiesPost = function(req, res){
     let logger = new Log();
     let body = req.body;
-    persistance.addInteractionObject('properties', body)
+    persistance.addItem('properties', body)
     .then((response) => {
         if(response){
             logger.info(`New property ${body.pid} posted`, "ADMIN");
@@ -118,7 +118,7 @@ module.exports.propertiesPost = function(req, res){
 module.exports.propertiesDelete = function(req, res){
     let id = req.params.id || null; 
     let logger = new Log();
-    persistance.removeInteractionObject('properties', id)
+    persistance.removeItem('properties', id)
     .then((response) => {
         logger.info(`Property ${id} removed`, "ADMIN");
         res.json({error: false, message: response})
@@ -144,7 +144,7 @@ module.exports.propertiesDelete = function(req, res){
 module.exports.actionsGet = function(req, res){
     let id = req.params.id || null; 
     let logger = new Log();
-    persistance.getConfigDetail('actions', id)
+    persistance.getItem('actions', id)
     .then((response) => {
         res.json({error: false, message: response})
     })
@@ -161,7 +161,7 @@ module.exports.actionsGet = function(req, res){
 module.exports.actionsPost = function(req, res){
     let logger = new Log();
     let body = req.body;
-    persistance.addInteractionObject('actions', body)
+    persistance.addItem('actions', body)
     .then((response) => {
         if(response){
             logger.info(`New action ${body.aid} posted`, "ADMIN");
@@ -184,7 +184,7 @@ module.exports.actionsPost = function(req, res){
 module.exports.actionsDelete = function(req, res){
     let id = req.params.id || null;
     let logger = new Log();
-    persistance.removeInteractionObject('actions', id)
+    persistance.removeItem('actions', id)
     .then((response) => {
         logger.info(`Action ${id} removed`, "ADMIN");
         res.json({error: false, message: response})
@@ -210,7 +210,7 @@ module.exports.actionsDelete = function(req, res){
 module.exports.eventsGet = function(req, res){
     let id = req.params.id || null;
     let logger = new Log();
-    persistance.getConfigDetail('events', id)
+    persistance.getItem('events', id)
     .then((response) => {
         res.json({error: false, message: response})
     })
@@ -227,7 +227,7 @@ module.exports.eventsGet = function(req, res){
 module.exports.eventsPost = function(req, res){
     let logger = new Log();
     let body = req.body;
-    persistance.addInteractionObject('events', body)
+    persistance.addItem('events', body)
     .then((response) => {
         if(response){
             logger.info(`New event ${body.eid} posted`, "ADMIN");
@@ -250,7 +250,7 @@ module.exports.eventsPost = function(req, res){
 module.exports.eventsDelete = function(req, res){
     let id = req.params.id || null;
     let logger = new Log();
-    persistance.removeInteractionObject('events', id)
+    persistance.removeItem('events', id)
     .then((response) => {
         logger.info(`Event ${id} removed`, "ADMIN");
         res.json({error: false, message: response})

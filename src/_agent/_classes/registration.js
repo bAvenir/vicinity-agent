@@ -74,7 +74,7 @@ const interactions = {
                 events: this._getInteractionId(this.td.events, 'events'),
                 credentials: 'Basic ' +  Buffer.from(registration.oid + ":" + registration.password).toString('base64')
             };
-            await persistance.addRegistration(newRegistration);
+            await persistance.addItem('registrations', newRegistration);
             return Promise.resolve(true);
         } catch(err) {
             return Promise.reject(err);
@@ -88,7 +88,7 @@ const interactions = {
      */
     static async removeCredentials(unregistrations){
         try{
-            await persistance.removeRegistration(unregistrations); // Remove from memory unregistered objects
+            await persistance.removeItem('registrations', unregistrations); // Remove from memory unregistered objects
             return Promise.resolve(true);
         } catch(err) {
             return Promise.reject(err);
@@ -129,7 +129,7 @@ const interactions = {
             if(!Array.isArray(all_interactions)) throw new Error(`REGISTRATION ERROR: ${type} is not a valid array`);
             let uniqueInteractions = [ ...new Set(all_interactions)]; // Ensure interaction ids registered are unique 
             for(let i = 0, l = uniqueInteractions.length; i < l; i++){
-                let aux = await persistance.getInteractionObject(type, uniqueInteractions[i]);
+                let aux = await persistance.getItem(type, uniqueInteractions[i]);
                 if(aux == null) throw new Error(`REGISTRATION ERROR: Interaction: ${uniqueInteractions[i]} could not be found in ${type}`); 
                 interactionsArray.push(JSON.parse(aux));
             }
@@ -154,7 +154,7 @@ const interactions = {
      */
     async _checkNumberOfRegistrations(){
         try{
-            let count = await persistance.getCountOfRegistrations();
+            let count = await persistance.getCountOfItems('registrations');
             if(count>=100) throw new Error('You have reached max number of registrations!');
             return Promise.resolve(true);
         } catch(err) {

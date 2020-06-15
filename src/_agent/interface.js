@@ -27,10 +27,10 @@ module.exports.initialize = async function(){
         if(!config.gatewayId || !config.gatewayPwd) throw new Error('Missing gateway id or credentials...');
         
         // Get objects OIDs stored locally
-        let registrations = await persistance.getLocalRegistrations();
+        let registrations = await persistance.getItem('registrations', null);
 
         // Load mappings and configurations
-       await persistance.loadConfigurationFile('mapper');
+       await persistance.loadConfigurationFile('dataurls');
        await persistance.loadConfigurationFile('properties');
        await persistance.loadConfigurationFile('events');
 
@@ -45,7 +45,7 @@ module.exports.initialize = async function(){
 
         // Initialize event channels
         for(let i = 0, l = registrations.length; i<l; i++){
-            let thing = await persistance.getLocalRegistrations(registrations[i]);
+            let thing = await persistance.getItem('registrations', registrations[i]);
             let events = thing.events || [];
             if(events.length > 0) await services.activateEventChannels(registrations[i], events);
         }

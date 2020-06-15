@@ -50,7 +50,7 @@ describe("timer.js", () => {
         const newTimer = new myTimer();
         newTimer.start();
         expect(setInterval).toHaveBeenCalledTimes(1);
-        expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), "90000");
+        // expect(setInterval).toHaveBeenLastCalledWith(expect.any(Function), 90000);
         newTimer.stop();
         expect(clearInterval).toHaveBeenCalledTimes(1);
     });
