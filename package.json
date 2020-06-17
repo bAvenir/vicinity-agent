@@ -1,6 +1,6 @@
 {
   "name": "bavenir-agent",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "bAvenir agent plugin for VICINITY adapters",
   "main": "index.js",
   "directories": {
