@@ -698,34 +698,6 @@
         }
       }
     },
-    "/api/properties/autorequest": {
-      "get": {
-        "description": "Starts the automatic collection of remote properties. These properties have to be defined in mapper.json and the request interval is configurable.",
-        "tags": [ "consumption"],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
-          }
-        }
-      },
-      "delete": {
-        "description":"Stop the automatic collection of properties.",
-        "tags": ["consumption"],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
-          }
-        }
-      }
-    },
     "/api/events/subscribe": {
       "get": {
         "description": "Subscribe to all events existing in the file mapper.json. Agent will listen and collect messages in those channels.",

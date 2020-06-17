@@ -23,18 +23,22 @@ Once the VICINITY adapter is running, we can see the agent routes in **localhost
 NOTE: The names used by the following lists and hashes are reserved, try not to override if you decide to reuse the redis module.
 
 * Default lists
-    * properties
-    * events
-    * actions
-    * registrations
-    * mappers
-    * dataurls
+    * properties: [properties] list in REDIS contains registered PIDs
+    * events: [events] list in REDIS contains registered EIDs
+    * actions: [actions] list in REDIS contains registered AIDs
+    * registrations [oids]
+    * mappers [oids]
+    * dataurls [oid:interaction:interaction_id]
 
 * Default hashes
-    * oid of your register devices
-    * interaction:interaction_id --> e.g: properties:brightness
-    * mappers:oid
-    * configuration
+    * registration: 
+        * id --> oid of your register devices
+        * Hash contains --> {oid, name, type, properties, events, actions, password, credentials}
+    * interaction:
+        * interaction_id --> properties:brightness 
+        * Hash contains --> { body: stringified object with interaction description in JSON, vicinity: vicinity interaction type }
+    * mappers: User defined, they mapping key should be the VICINITY oid
+    * configuration: Managed by agent
 
 * Default strings 
     * /objects/{oid}/{interaction}/{interaction_id} --> Used for caching
@@ -45,8 +49,10 @@ More info available in folder src/_persistance/_models, on top of each file the 
 
 When the adapter installs the VICINITY agent, several resources become available to it:
 
+For DEVELOPERS, see **docs/resources** for description of the available functions to build an extension to the adapter.
+
 * Agent
-    * Gateway: Interface to the gateway API. 
+    * Gateway: Interface to the gateway API.
     * Services: Agent services based on series of interactions with VICINITY using the Gateway.
 
 * Persistance
