@@ -1,5 +1,9 @@
 # bAvenir VICINITY agent
 
+![npm](https://img.shields.io/npm/v/bavenir-agent?style=plastic)
+![NPM](https://img.shields.io/npm/l/bavenir-agent?style=plastic)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bAvenir/vicinity-agent?style=plastic)
+
 This is a Node.js project that acts as integration support for VICINITY adapters. Provides functionality to manage VICINITY items lifecycle and consumption of resources.
 
 The agent is used as an NPM package that integrates with the generic VICINITY adapter. The purpose of this tools is to ease the development of new adapters using the generic adapter as platform.
