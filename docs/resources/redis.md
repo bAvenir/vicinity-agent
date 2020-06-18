@@ -76,6 +76,14 @@ set: (key, item, ttl) => {}
 
 remove: (key) => {}
 
+    Get manually one key or list stored;
+    rejects on error a boolean;
+    @async
+    @param {string} key
+    @returns {string}
+ 
+get: (key) => {}
+
 <hr>
 
 ## SETS

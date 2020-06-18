@@ -156,6 +156,26 @@ module.exports = {
       });
     });
   },
+  /**
+   * Get manually one key or list stored;
+   * rejects on error a boolean;
+   * @async
+   * @param {string} key
+   * @returns {string}
+   */
+  get: (key) => {
+    return new Promise(function (resolve, reject) {
+      client.get(key, function(err, reply) {
+        if (err) {
+          logger.error(err, "REDIS");
+          reject(false);
+        } else {
+          logger.debug(reply, "REDIS");
+          resolve(reply);
+        }
+      });
+    });
+  },
   // SETS
   /**
    * Adds item to set;
