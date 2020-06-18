@@ -55,7 +55,7 @@ NOTE: The names used by the following lists and hashes are reserved, try not to 
     * events: [events] list in REDIS contains registered EIDs
     * actions: [actions] list in REDIS contains registered AIDs
     * registrations [oids]
-    * mappers [oids]
+    * mappers [<some_id>]
     * dataurls [oid:interaction:interaction_id]
 
 * Default hashes
@@ -65,7 +65,9 @@ NOTE: The names used by the following lists and hashes are reserved, try not to 
     * interaction:
         * interaction_id --> properties:brightness 
         * Hash contains --> { body: stringified object with interaction description in JSON, vicinity: vicinity interaction type }
-    * mappers: User defined, they mapping key should be the VICINITY oid
+    * mappers: User defined, the identifier of the has field has to be map:<some_id>
+        * You need to add the prefix map: to avoid overriding other hash maps (E.g: Case that you would be reusing oid as identifier)
+        * Therefore when creating a new mapper this has to contain the field "id"
     * configuration: Managed by agent
 
 * Default strings 

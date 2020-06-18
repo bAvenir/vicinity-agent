@@ -4,9 +4,10 @@ const services = require('../services');
 /**
  * mappers.js
  * mappers model
- * [mappers] list in REDIS contains OIDs of objects that have a mapping hash
+ * [mappers] list in REDIS contains IDs of objects that have a mapping hash
  * The mapping has structure is free up to the developer design
- * NOTE: vicinity OID 'oid' is the only mandatory field of the object
+ * NOTE: There identifier of the hash maps will be map:<some_id>
+ * You need to add the prefix map: to avoid overriding other hash maps (E.g: Case that you would be reusing oid as identifier)
  * @class
 */
 

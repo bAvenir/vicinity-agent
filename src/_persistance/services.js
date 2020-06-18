@@ -108,19 +108,19 @@ fun.storeMappers = async function(array){
     try{ 
         for(let i = 0, l = array.length; i<l; i++){
             let data = array[i];
-            if(!data.oid){
+            if(!data.id){
                 throw new Error(`Missing oid`);
             }
-            let exists = await redis.sismember('mappers', data.oid);
+            let exists = await redis.sismember('mappers', data.id);
             if(!exists){
                 let todo = [];
-                todo.push(redis.sadd('mappers', data.oid));
+                todo.push(redis.sadd('mappers', data.id));
                 for(let key in data){
-                    todo.push(redis.hset(`mappers:${data.oid}`, key, data[key]));
+                    todo.push(redis.hset(`map:${data.id}`, key, data[key]));
                 }
                 await Promise.all(todo);
             } else {
-                logger.warn(`OID: ${data.oid} is already stored in mappers memory.`, "PERSISTANCE")
+                logger.warn(`OID: ${data.id} is already stored in mappers memory.`, "PERSISTANCE")
             }
         }
         // Persist changes to dump.rdb
@@ -136,7 +136,9 @@ fun.storeMappers = async function(array){
  * Store data urls in memory
  */
 fun.storeDataurls = async function(array){
-    try{  
+    try{ 
+        // Old dataurls are removed every time we store new ones
+        await redis.remove('dataurls'); 
         for(let i=0, l=array.length; i<l; i++){
             if(array[i].oid && array[i].interaction){
                 await redis.sadd('dataurls', `${array[i].oid}:${array[i].interaction}:${array[i].interaction_id}`);
@@ -223,10 +225,10 @@ fun.loadDataurls = async function(){
 fun.loadMappers = async function(){
     let result;
     try{
-        let oids = await redis.smembers('mappers');
+        let ids = await redis.smembers('mappers');
         let todo = [];
-        for(let i = 0, l = oids.length; i<l; i++){
-            todo.push(redis.hgetall(`mappers:${oids[i]}`));
+        for(let i = 0, l = ids.length; i<l; i++){
+            todo.push(redis.hgetall(`map:${ids[i]}`));
         }
         result = await Promise.all(todo);
         result = JSON.stringify(result);
@@ -335,8 +337,8 @@ fun.removeMappers = async function(ids){
     try{ 
         for(let i = 0, l = ids.length; i<l; i++){
             let id = ids[i];
-            await redis.srem('mappers', id);
-            await redis.remove(`mappers:${id}`);
+            redis.srem('mappers', id);
+            redis.remove(`map:${id}`);
         }
         // Persist changes to dump.rdb
         redis.save();
@@ -410,7 +412,7 @@ fun.getMappers = async function(id){
     let result;
     try{
         if(id){
-            result = await redis.hgetall(`mappers:${id}`);
+            result = await redis.hgetall(`map:${id}`);
         } else {
             result = await redis.smembers('mappers');
         }
