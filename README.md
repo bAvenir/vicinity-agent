@@ -17,7 +17,7 @@ https://github.com/bAvenir/vicinity-generic-adapter
 
 ## How to install
 
-* npm install vicinity-agent
+* npm i bavenir-agent
 
 ## Documentation of the API
 
