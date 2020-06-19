@@ -23,6 +23,8 @@ module.exports = class Request {
     this.options.retry = 2; // Retries on failure N times
     this.options.throwHttpErrors = true; // Non 2XX is treated as error
     this.options.method = "GET"; // Default method
+    this.options.searchParams = [];
+    this.options.headers = [];
   }
 
   // Methods
