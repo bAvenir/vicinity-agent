@@ -178,9 +178,12 @@ module.exports.combinationExists = async function(oid, pid){
     try{
         let exists = await redis.sismember('registrations', oid);
         if(!exists) throw new Error(`Object ${oid} does not exist in infrastructure`);
+        let type = await redis.hget(oid, 'type');
         let properties = await redis.hget(oid, 'properties');
-        let p = properties.split(',');
-        if(p.indexOf(pid) === -1 ) throw new Error(`Object ${oid} does not have property ${pid}`);
+        if(type !== "core:Service"){
+            let p = properties != null ? properties.split(',') : [];
+            if(p.indexOf(pid) === -1 ) throw new Error(`Object ${oid} does not have property ${pid}`);
+        }
         return Promise.resolve(true);
     } catch(err){
         return Promise.reject(err);
