@@ -56,16 +56,19 @@ module.exports = class Log {
    * @param {*} other OPTIONAL (Additional fields)
    */
   error(message, agent, other) {
-    logger.error(this._buildLog(message, agent, other));
+    if(message) logger.error(this._buildLog(message, agent, other));
   }
 
   // Private methods (Private methods and variables in NodeJS are still not in definitive version !!)
 
   _buildLog(message, agent, other){
     try{
-      if(!message) message = "Empty log message...";
-      var aux = typeof message === 'object' ? JSON.stringify(message) : message;
-      var date = new Date();
+      let aux;
+      // Check if error obj
+      aux = message.stack ? message.stack : message;
+      // If not error but is obj parse, if not obj return as is
+      aux = typeof aux === 'object' ? JSON.stringify(aux) : aux;
+      let date = new Date();
       // var duration = date.getTime() - this.ini.getTime();
       aux = typeof agent !== 'undefined' ? agent + " - " + aux : "Unknown" + " - " + aux;
       aux = date.toISOString() + " - " + aux;

@@ -3,7 +3,7 @@ var fs = require('fs');
 exports.findFiles = function(path) {
   return new Promise(function(resolve, reject){
     fs.readdir(path, function(err, response){
-      if(err) reject(err);
+      if(err) throw err;
       resolve(response);
     });
   });
@@ -16,8 +16,8 @@ exports.findFiles = function(path) {
 exports.read = function(file){
   return new Promise(function(resolve, reject){
     fs.readFile(file, 'utf8', function(err, response){
-      if (err) reject(err);
-        resolve(response);
+      if (err) throw err;
+      resolve(response);
     });
   });
 };
@@ -30,8 +30,8 @@ exports.read = function(file){
 exports.write = function(file, string){
   return new Promise(function(resolve, reject){
     fs.writeFile(file, string, 'utf8', function(err){
-      if (err) reject(err);
-        resolve('The file has been saved!');
+      if (err) throw err;
+      resolve('The file has been saved!');
     });
   });
 };

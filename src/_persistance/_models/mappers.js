@@ -32,12 +32,8 @@ module.exports = class Mappers {
    * @returns {boolean} 
    */
   async storeInMemory(array){
-    try{
         let success = await services.storeMappers(array);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -46,12 +42,8 @@ module.exports = class Mappers {
    * @returns {array} 
    */
   async loadFromMemory(){
-    try{
         let result = await services.loadMappers();
         return Promise.resolve(result);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -61,12 +53,8 @@ module.exports = class Mappers {
    * @returns {boolean} 
    */
   async addItem(data){
-    try{
         let success = await services.storeMappers([data]);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -76,13 +64,9 @@ module.exports = class Mappers {
    * @returns {boolean} 
    */
   async removeItem(ids){
-    try{
         if(typeof ids === 'string') ids = [ids];
         let success = await services.removeMappers(ids);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -94,12 +78,8 @@ module.exports = class Mappers {
    * @returns {object} 
    */
   async getItem(id){
-    try{
         let result = await services.getMappers(id);
         return Promise.resolve(result);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -108,12 +88,8 @@ module.exports = class Mappers {
    * @returns {integer} 
    */
   async getCountOfItems(){
-    try{
       let count = await services.getCount(this.type);
       return Promise.resolve(count);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   // Private methods

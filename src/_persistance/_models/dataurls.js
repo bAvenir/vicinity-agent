@@ -33,12 +33,8 @@ module.exports = class Dataurls {
    * @returns {boolean} 
    */
   async storeInMemory(array){
-    try{
         let success = await services.storeDataurls(array);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -47,12 +43,8 @@ module.exports = class Dataurls {
    * @returns {array} 
    */
   async loadFromMemory(){
-    try{
         let result = await services.loadDataurls();
         return Promise.resolve(result);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -62,12 +54,8 @@ module.exports = class Dataurls {
    * @returns {boolean} 
    */
   async addItem(data){
-    try{
         let success = await services.storeDataurls([data]);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -77,12 +65,8 @@ module.exports = class Dataurls {
    * @returns {boolean} 
    */
   async removeItem(id){
-    try{
         let success = await services.removeDataurls(id);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -92,12 +76,8 @@ module.exports = class Dataurls {
    * @returns {object} 
    */
   async getItem(){
-    try{
         let result = await services.loadDataurls();
         return Promise.resolve(result);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -106,12 +86,8 @@ module.exports = class Dataurls {
    * @returns {integer} 
    */
   async getCountOfItems(){
-    try{
         let count = await services.getCount(this.type);
         return Promise.resolve(count);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   // Private methods

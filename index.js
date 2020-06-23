@@ -9,6 +9,7 @@ classes.timer =  require('./src/_classes/timer');
 classes.mqtt =  require('./src/_classes/mqtt');
 classes.logger =  require('./src/_classes/logger');
 classes.request =  require('./src/_classes/request');
+classes.error = require('./src/_classes/error');
 let utils = {};
 utils.errorHandler = require('./src/_utils/errorHandler');
 utils.logger = require('./src/_utils/logger');

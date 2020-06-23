@@ -100,7 +100,8 @@ module.exports.registerObject = async function(body){
         let response = await services.registerObject(body);
         return Promise.resolve(response);
     }catch(err){
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 
@@ -119,7 +120,8 @@ module.exports.unregisterObject = async function(oid){
         let response = await services.removeObject(obj);
         return Promise.resolve(response);
     }catch(err){
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 
@@ -137,7 +139,8 @@ module.exports.subscribeEvents = async function(){
         await services.subscribeEvents(oid, subscriptions);
         return Promise.resolve(true);
     }catch(err){
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 
@@ -154,6 +157,7 @@ module.exports.unsubscribeEvents = async function(){
         await services.unsubscribeEvents(oid, subscriptions);
         return Promise.resolve(true);
     }catch(err){
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }

@@ -5,6 +5,7 @@
  */
 
 const Log = require('../_classes/logger');
+let logger = new Log();
 const gateway = require('./gatewayInterface');
 const Regis = require('./_classes/registration');
 
@@ -14,7 +15,6 @@ let services = {};
  * Perform login of all registered objects
  */
 services.doLogins = async function(array){
-    let logger = new Log();
     try{
         await gateway.login(); // Start always the gateway first
         let actions = [];
@@ -25,7 +25,8 @@ services.doLogins = async function(array){
         logger.info('All logins finalized', "AGENT");
         return Promise.resolve("All logins finalized");
     } catch(err) {
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 
@@ -33,7 +34,6 @@ services.doLogins = async function(array){
  * Perform logout of all registered objects
  */
 services.doLogouts = async function(array){
-    let logger = new Log();
     try{
         let actions = [];
         for(var i = 0, l = array.length; i < l; i++){
@@ -44,7 +44,8 @@ services.doLogouts = async function(array){
         logger.info('All logouts were successful', "AGENT");
         return Promise.resolve("Logouts were successful");
     } catch(err) {
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 
@@ -67,7 +68,8 @@ services.registerObject = async function(body){
         await Promise.all(actions);
         return Promise.resolve(result.message);
     } catch(err) {
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 
@@ -81,7 +83,8 @@ services.removeObject = async function(body){
         await Regis.removeCredentials(body.oids);
         return Promise.resolve(result.message.message);
     } catch(err) {
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 
@@ -90,16 +93,16 @@ services.removeObject = async function(body){
  * Both should have the same objects registered
  */
 services.compareLocalAndRemote = function(local, platform){
-    let logger = new Log();
     try{
         let oidArray = platform.map((item)=>{ return item.id.info.oid });
         for(let i = 0, l = local.length; i<l; i++){
             if(oidArray.indexOf(local[i]) === -1) throw new Error('Local and platform objects are not the same')
         }
         logger.info('Local and platform objects match!', 'AGENT');
+        return true;
     } catch(err) {
         logger.warn(err, 'AGENT');
-        return err;
+        return false;
     }
 }
 
@@ -108,7 +111,6 @@ services.compareLocalAndRemote = function(local, platform){
  * After starting the adapter of registering new objects is triggered
  */
 services.activateEventChannels = async function(oid, events){
-    let logger = new Log();
     try{
         if(typeof events === 'string') events = events.split(',');
         for(let i = 0, l = events.length; i<l; i++){
@@ -133,7 +135,8 @@ services.subscribeEvents = async function(oid, subscribers){
                 }            
             }
         }catch(err){
-            return Promise.reject(err);
+            logger.error(err, "AGENT");
+            return Promise.reject(false);
         }
     }
 
@@ -148,7 +151,8 @@ services.unsubscribeEvents = async function(oid, subscribers){
             }
         }
     }catch(err){
-        return Promise.reject(err);
+        logger.error(err, "AGENT");
+        return Promise.reject(false);
     }
 }
 

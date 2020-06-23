@@ -33,13 +33,8 @@ module.exports = class Registrations {
    * @returns {boolean} 
    */
   async storeInMemory(array){
-    try{
         let success = await services.storeRegistrations(array);
         return Promise.resolve(success);
-    } catch(err) {
-        logger.debug(err, "MODEL");
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -48,13 +43,8 @@ module.exports = class Registrations {
    * @returns {array} 
    */
   async loadFromMemory(){
-    try{
         let result = await services.loadRegistrations();
         return Promise.resolve(result);
-    } catch(err) {
-      logger.debug(err, "MODEL");
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -64,13 +54,8 @@ module.exports = class Registrations {
    * @returns {boolean} 
    */
   async addItem(data){
-    try{
         let success = await services.storeRegistrations([data]);
         return Promise.resolve(success);
-    } catch(err) {
-      logger.debug(err, "MODEL");
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -80,14 +65,9 @@ module.exports = class Registrations {
    * @returns {boolean} 
    */
   async removeItem(ids){
-    try{
       if(typeof ids === 'string') ids = [ids];
       services.removeRegistrations(ids); 
       return Promise.resolve(true);
-    } catch(err) {
-      logger.debug(err, "MODEL");
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -99,13 +79,8 @@ module.exports = class Registrations {
    * @returns {object} 
    */
   async getItem(id){
-    try{
         let result = await services.getRegistrations(id);
         return Promise.resolve(result);
-    } catch(err) {
-      logger.debug(err, "MODEL");
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -114,13 +89,8 @@ module.exports = class Registrations {
    * @returns {integer} 
    */
   async getCountOfItems(){
-    try{
       let count = await services.getCount(this.type);
       return Promise.resolve(count);
-    } catch(err) {
-        logger.debug(err, "MODEL");
-        return Promise.reject(err);
-    }
   }
 
   // Private methods

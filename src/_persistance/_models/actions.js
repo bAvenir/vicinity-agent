@@ -31,12 +31,8 @@ module.exports = class Actions {
    * @returns {boolean} 
    */
   async storeInMemory(array){
-    try{
         let success = await services.storeInteractions(this.type, array);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -45,12 +41,8 @@ module.exports = class Actions {
    * @returns {array} 
    */
   async loadFromMemory(){
-    try{
         let result = await services.loadInteractions(this.type);
         return Promise.resolve(result);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -60,12 +52,8 @@ module.exports = class Actions {
    * @returns {boolean} 
    */
   async addItem(data){
-    try{
         let success = await services.storeInteractions(this.type, [data]);
         return Promise.resolve(success);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -75,13 +63,9 @@ module.exports = class Actions {
    * @returns {boolean} 
    */
   async removeItem(ids){
-    try{
       if(typeof ids === 'string') ids = [ids];
       services.removeInteractions(this.type, ids); 
       return Promise.resolve(true);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -93,12 +77,8 @@ module.exports = class Actions {
    * @returns {object} 
    */
   async getItem(id){
-    try{
         let result = await services.getInteractions(this.type, id);
         return Promise.resolve(result);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   /**
@@ -107,12 +87,8 @@ module.exports = class Actions {
    * @returns {integer} 
    */
   async getCountOfItems(){
-    try{
       let count = await services.getCount(this.type);
       return Promise.resolve(count);
-    } catch(err) {
-        return Promise.reject(err);
-    }
   }
 
   // Private methods

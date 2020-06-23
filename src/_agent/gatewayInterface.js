@@ -30,7 +30,7 @@ module.exports.login = async function(oid){
     } catch(err) {
         logger.warn("Object " + oid + " was not logged in ...", "GATEWAY");
         logger.warn(err, "GATEWAY");
-        return Promise.resolve(err);
+        return Promise.resolve(false);
     }
 }
 
@@ -50,7 +50,8 @@ module.exports.logout = async function(oid){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.resolve(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -70,7 +71,8 @@ module.exports.getRegistrations = async function(){
         let result = await request.send();
         return Promise.resolve(result.message);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -92,7 +94,8 @@ module.exports.postRegistrations = async function(body){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -113,7 +116,8 @@ module.exports.removeRegistrations = async function(body){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -141,7 +145,8 @@ module.exports.discovery = async function(oid){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -168,7 +173,8 @@ module.exports.getProperty = async function(oid, remote_oid, pid){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -188,7 +194,8 @@ module.exports.putProperty = async function(oid, remote_oid, pid){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -208,7 +215,8 @@ module.exports.activateEventChannel = async function(oid, eid){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -229,7 +237,8 @@ module.exports.publishEvent = async function(oid, eid, body){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -249,7 +258,8 @@ module.exports.deactivateEventChannel = async function(oid, eid){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -268,7 +278,8 @@ module.exports.statusRemoteEventChannel = async function(oid, remote_oid, eid){
         let result = await request.send();
         return Promise.resolve(result);
     } catch(err) {
-        return Promise.reject(err)
+        logger.error(err, "GATEWAY");
+        return Promise.reject(false);
     }
 }
 
@@ -291,7 +302,7 @@ module.exports.subscribeRemoteEventChannel = async function(oid, remote_oid, eid
         return Promise.resolve(result);
     } catch(err) {
         logger.error(err, "GATEWAY");
-        return Promise.resolve(err)
+        return Promise.resolve(false);
     }
 }
 
@@ -314,7 +325,7 @@ module.exports.unsubscribeRemoteEventChannel = async function(oid, remote_oid, e
         return Promise.resolve(result);
     } catch(err) {
         logger.error(err, "GATEWAY");
-        return Promise.resolve(err)
+        return Promise.resolve(false);
     }
 }
 
@@ -342,6 +353,7 @@ module.exports.health = async function(){
         await request.send();
         return Promise.resolve('OK');
     } catch(err) {
-        return Promise.resolve(err)
+        logger.error(err, "GATEWAY");
+        return Promise.resolve(false);
     }
 }

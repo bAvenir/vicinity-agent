@@ -6,6 +6,7 @@
 */ 
 
 const Log = require('../../_classes/logger');
+let logger = new Log();
 const gtwInterface = require('../gatewayInterface');
 const services = require('../services');
 const agent = require('../interface');
@@ -16,7 +17,6 @@ const agent = require('../interface');
  */
 module.exports.login = function(req, res){
     let oid = req.params.id || null; // If null => Use gtw credentials
-    let logger = new Log();
     gtwInterface.login(oid)
     .then(() => {
         logger.info("Login successful", "AGENT");
@@ -34,7 +34,6 @@ module.exports.login = function(req, res){
  */
 module.exports.logout = function(req, res){
     let oid = req.params.id || null; // If null => Use gtw credentials
-    let logger = new Log();
     gtwInterface.logout(oid)
     .then(() => {
         logger.info("Logout successful", "AGENT");
@@ -47,7 +46,6 @@ module.exports.logout = function(req, res){
 }
 
 module.exports.getRegistrations = function(req, res){
-    let logger = new Log();
     gtwInterface.getRegistrations()
     .then((response) => {
         logger.info("Objects registered with your gateway retrieved", "AGENT");
@@ -74,7 +72,6 @@ module.exports.getRegistrations = function(req, res){
  */
 module.exports.postRegistrations = function(req, res){
     let body = req.body;
-    let logger = new Log();
     services.registerObject(body)
     .then((response) => {
         logger.info("Objects registered and credentials stored!", "AGENT");
@@ -93,7 +90,6 @@ module.exports.postRegistrations = function(req, res){
  */
 module.exports.removeRegistrations = function(req, res){
     let body = req.body;
-    let logger = new Log();
     services.removeObject(body)
     .then((response) => {
         logger.info("Objects unregistered", "AGENT");
@@ -112,7 +108,6 @@ module.exports.removeRegistrations = function(req, res){
  */
 module.exports.discovery = function(req, res){
     let oid = req.params.id;
-    let logger = new Log();
     gtwInterface.discovery(oid)
     .then((response) => {
         logger.info(`Neighbours of ${oid} discovered`, "AGENT");
@@ -133,7 +128,6 @@ module.exports.discovery = function(req, res){
      * @param {STRING} pid (remote VICINITY property)
      */
     module.exports.getProperty = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let remote_oid = req.params.oid;
         let pid = req.params.pid;
@@ -155,7 +149,6 @@ module.exports.discovery = function(req, res){
      * @param {STRING} pid (remote VICINITY property)
      */
     module.exports.putProperty = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let remote_oid = req.params.oid;
         let pid = req.params.pid;
@@ -176,7 +169,6 @@ module.exports.discovery = function(req, res){
      * @param {STRING} eid (name of my channel)
      */
     module.exports.activateEventChannel = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let eid = req.params.eid;
         gtwInterface.activateEventChannel(oid, eid)
@@ -197,7 +189,6 @@ module.exports.discovery = function(req, res){
      * Body OBJECT JSON
      */
     module.exports.publishEvent = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let eid = req.params.eid;
         let body = req.body;
@@ -218,7 +209,6 @@ module.exports.discovery = function(req, res){
      * @param {STRING} eid (name of my channel)
      */
     module.exports.deactivateEventChannel = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let eid = req.params.eid;
         gtwInterface.deactivateEventChannel(oid, eid)
@@ -239,7 +229,6 @@ module.exports.discovery = function(req, res){
      * @param {STRING} eid (name of my channel)
      */
     module.exports.statusRemoteEventChannel = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let remote_oid = req.params.oid;
         let eid = req.params.eid;
@@ -261,7 +250,6 @@ module.exports.discovery = function(req, res){
      * @param {STRING} eid (name of my channel)
      */
     module.exports.subscribeRemoteEventChannel = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let remote_oid = req.params.oid;
         let eid = req.params.eid;
@@ -283,7 +271,6 @@ module.exports.discovery = function(req, res){
      * @param {STRING} eid (name of my channel)
      */
     module.exports.unsubscribeRemoteEventChannel = function(req, res){
-        let logger = new Log();
         let oid = req.params.id;
         let remote_oid = req.params.oid;
         let eid = req.params.eid;
@@ -306,7 +293,8 @@ module.exports.discovery = function(req, res){
             res.json({error: false, message: 'Events subscribed'})
         })
         .catch((err) => {
-            res.json(err)
+            logger.error(err, "AGENT");
+            res.json({error: true, message: "Something went wrong, check the logs for more info"})
         }) 
     }
 
@@ -316,6 +304,7 @@ module.exports.discovery = function(req, res){
             res.json({error: false, message: 'Events unsubscribed'})
         })
         .catch((err) => {
-            res.json(err)
+            logger.error(err, "AGENT");
+            res.json({error: true, message: "Something went wrong, check the logs for more info"})
         }) 
     }

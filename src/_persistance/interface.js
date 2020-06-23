@@ -86,7 +86,7 @@ module.exports.addItem = async function(type, data){
         return Promise.resolve(result);
     } catch(err) {
         logger.error(err, "PERSISTANCE");
-        return Promise.reject(err);
+        return Promise.reject(false);
     }
 }
 
@@ -104,7 +104,7 @@ module.exports.removeItem = async function(type, id){
         return Promise.resolve(result);
     } catch(err) {
         logger.error(err, "PERSISTANCE");
-        return Promise.reject(err);
+        return Promise.reject(false);
     }
 }
 
@@ -124,7 +124,7 @@ module.exports.getItem = async function(type, id){
         return Promise.resolve(result);
     } catch(err) {
         logger.error(err, "PERSISTANCE");
-        return Promise.reject(err);
+        return Promise.reject(false);
     }
 }
 
@@ -141,7 +141,7 @@ module.exports.getCountOfItems = async function(type){
         return Promise.resolve(result);
     } catch(err) {
         logger.error(err, "PERSISTANCE");
-        return Promise.reject(err);
+        return Promise.reject(false);
     }
 }
 
@@ -186,7 +186,8 @@ module.exports.combinationExists = async function(oid, pid){
         }
         return Promise.resolve(true);
     } catch(err){
-        return Promise.reject(err);
+        logger.error(err, "PERSISTANCE")
+        return Promise.reject(false);
     }    
 }
 
@@ -205,7 +206,7 @@ module.exports.reloadConfigInfo = async function(){
         await services.addConfigurationInfo();
         return Promise.resolve(true);
     } catch(err) {
-        return Promise.reject("Problem storing configuration information...")
+        throw new Error("Problem storing configuration information...");
     }
 }
 
@@ -224,7 +225,7 @@ module.exports.getConfigInfo = async function(){
         return Promise.resolve(result);
     } catch(err) {
         logger.error(err, "PERSISTANCE")
-        return Promise.reject("Problem retrieving configuration information...")
+        throw new Error("Problem storing configuration information...");
     }
 }
 
