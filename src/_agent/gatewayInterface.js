@@ -185,11 +185,12 @@ module.exports.getProperty = async function(oid, remote_oid, pid){
  * @param {oid: string, remote_oid: string, pid: string}
  * @returns {error: boolean, message: object} 
  */
-module.exports.putProperty = async function(oid, remote_oid, pid){
+module.exports.putProperty = async function(oid, remote_oid, pid, body){
     try{
         let request = new Req();
         await request.setAuthorization(oid);
         request.setMethod("PUT");
+        request.setBody(body);
         request.setUri('objects/' + remote_oid + '/properties/' + pid);
         let result = await request.send();
         return Promise.resolve(result);

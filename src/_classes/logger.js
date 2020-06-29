@@ -26,7 +26,7 @@ module.exports = class Log {
    * @param {*} other OPTIONAL (Additional fields)
    */
   debug(message, agent, other) {
-    if(node_environment !== 'production') logger.debug(this._buildLog(message, agent, other));
+    if(node_environment === 'development') logger.debug(this._buildLog(message, agent, other));
   }
 
   /**
@@ -36,7 +36,7 @@ module.exports = class Log {
    * @param {*} other OPTIONAL (Additional fields)
    */
   info(message, agent, other) {
-    logger.info(this._buildLog(message, agent, other));
+    if(node_environment !== 'test') logger.info(this._buildLog(message, agent, other));
   }
 
   /**
@@ -46,7 +46,7 @@ module.exports = class Log {
    * @param {*} other OPTIONAL (Additional fields)
    */
   warn(message, agent, other) {
-    logger.warn(this._buildLog(message, agent, other));
+    if(node_environment !== 'test') logger.warn(this._buildLog(message, agent, other));
   }
 
   /**
@@ -56,7 +56,7 @@ module.exports = class Log {
    * @param {*} other OPTIONAL (Additional fields)
    */
   error(message, agent, other) {
-    if(message) logger.error(this._buildLog(message, agent, other));
+    if(message && node_environment !== 'test') logger.error(this._buildLog(message, agent, other));
   }
 
   // Private methods (Private methods and variables in NodeJS are still not in definitive version !!)

@@ -152,15 +152,20 @@ module.exports.discovery = function(req, res){
         let oid = req.params.id;
         let remote_oid = req.params.oid;
         let pid = req.params.pid;
-        gtwInterface.putProperty(oid, remote_oid, pid)
-        .then((response) => {
-            logger.info(`Property ${pid} of ${remote_oid} set` , "AGENT");
-            res.json({error: false, message: response})
-        })
-        .catch((err) => {
-            logger.error(err, "AGENT");
-            res.json({error: true, message: "Something went wrong, check the logs for more info"})
-        }) 
+        let body = req.body;
+        if(Object.keys(body).length === 0){ 
+            res.status(400).json({error: true, message: "Missing body"});
+         } else {
+            gtwInterface.putProperty(oid, remote_oid, pid, body)
+            .then((response) => {
+                logger.info(`Property ${pid} of ${remote_oid} set` , "AGENT");
+                res.json({error: false, message: response})
+            })
+            .catch((err) => {
+                logger.error(err, "AGENT");
+                res.json({error: true, message: "Something went wrong, check the logs for more info"})
+            }) 
+        }
     }
 
     /**
@@ -192,15 +197,19 @@ module.exports.discovery = function(req, res){
         let oid = req.params.id;
         let eid = req.params.eid;
         let body = req.body;
-        gtwInterface.publishEvent(oid, eid, body)
-        .then((response) => {
-            logger.info(`Message sent to channel ${eid} of ${oid}` , "AGENT");
-            res.json({error: false, message: response})
-        })
-        .catch((err) => {
-            logger.error(err, "AGENT");
-            res.json({error: true, message: "Something went wrong, check the logs for more info"})
-        }) 
+        if(Object.keys(body).length === 0){ 
+            res.status(400).json({error: true, message: "Missing body"});
+         } else {
+            gtwInterface.publishEvent(oid, eid, body)
+            .then((response) => {
+                logger.info(`Message sent to channel ${eid} of ${oid}` , "AGENT");
+                res.json({error: false, message: response})
+            })
+            .catch((err) => {
+                logger.error(err, "AGENT");
+                res.json({error: true, message: "Something went wrong, check the logs for more info"})
+            }) 
+        }
     }
 
     /**

@@ -61,7 +61,7 @@ module.exports.loadConfigurationFile = async function(type){
 module.exports.saveConfigurationFile = async function(type){
     try{ 
         let model = models.getInstance(type);
-        await model.loadFromMemory();
+        let data = await model.loadFromMemory();
         await fileMgmt.write(`${config.rootPath}/agent/exports/${type}.json`, data);
         return Promise.resolve(true);
     } catch(err) {

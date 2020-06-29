@@ -7,7 +7,12 @@ The level of verbosity can be customized based on needs
 var winston = require('winston');
 const { createLogger, format, transports } = winston;
 require('winston-daily-rotate-file');
+const node_environment = process.env.NODE_ENV;
  
+let logger;
+
+if(node_environment !== 'test'){
+
   let file_transport = new winston.transports.DailyRotateFile({
     filename: './log/adapter-%DATE%.log',
     datePattern: 'YYYY-MM-DD-HH',
@@ -38,7 +43,7 @@ let myCustomLevels = {
   }
 };
 
-let logger = winston.createLogger({
+  logger = winston.createLogger({
     levels: myCustomLevels.levels,
     transports: [
       file_transport,
@@ -53,6 +58,11 @@ let logger = winston.createLogger({
     exitOnError: false
 });
 
+} else {
+
+  logger = winston.createLogger({})
+
+}
 // winston.emitErrs = true;
 
 // transport.on('rotate', function(oldFilename, newFilename) {
@@ -73,6 +83,8 @@ let logger = winston.createLogger({
 //       ),
 //     exitOnError: false
 // });
+
+
 
 module.exports = logger;
 

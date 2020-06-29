@@ -3,6 +3,13 @@ const resp = require("../_classes/response");
 const myTimer = require("../_classes/timer");
 const Request = require('../_classes/request');
 const Mqtt = require('../_classes/mqtt');
+const {
+    CustomError,
+    ErrorBadRequest,
+    ErrorUnexpected,
+    ErrorUnauthorized,
+    ErrorNotFound
+  } = require("../_classes/error");
 
 // Mocking functions
 jest.mock('got');
@@ -27,7 +34,7 @@ describe("request.js", () => {
         req.setBody({a:1});
         return req.send()
         .then(response => {
-                expect(response).toEqual(undefined);
+                expect(response).toEqual({"test": true});
             } 
         );
     });
@@ -80,6 +87,41 @@ describe("mqtt.js", () => {
         let obj = {name: '1', oid: '2'};
         mymqtt.mqttItems = obj;
         expect(mymqtt.mqttItems).toMatchObject([obj]);
+    });
+});
+
+describe("error.js", () => {
+    it("Custom Error", () => {
+        let err = new CustomError("test", "CustomError", 500);
+        expect(err).toBeInstanceOf(Error);
+    });
+    it("ErrorBadRequest", () => {
+        let err = new ErrorBadRequest("test");
+        expect(err).toBeInstanceOf(CustomError);
+        expect(err).toHaveProperty('message', 'test');
+        expect(err).toHaveProperty('name', 'HttpBadRequest');
+        expect(err).toHaveProperty('statusCode', 400);
+    });
+    it("ErrorUnauthorized", () => {
+        let err = new ErrorUnauthorized("test");
+        expect(err).toBeInstanceOf(CustomError);
+        expect(err).toHaveProperty('message', 'test');
+        expect(err).toHaveProperty('name', 'HttpForbidden');
+        expect(err).toHaveProperty('statusCode', 401);
+    });
+    it("ErrorNotFound", () => {
+        let err = new ErrorNotFound("test");
+        expect(err).toBeInstanceOf(CustomError);
+        expect(err).toHaveProperty('message', 'test');
+        expect(err).toHaveProperty('name', 'HttpNotFound');
+        expect(err).toHaveProperty('statusCode', 404);
+    });
+    it("ErrorUnexpected", () => {
+        let err = new ErrorUnexpected("test");
+        expect(err).toBeInstanceOf(CustomError);
+        expect(err).toHaveProperty('message', 'test');
+        expect(err).toHaveProperty('name', 'InternalServerError');
+        expect(err).toHaveProperty('statusCode', 500);
     });
 });
 
