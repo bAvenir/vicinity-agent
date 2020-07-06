@@ -8,6 +8,7 @@
 const Req = require('./_classes/gatewayRequest');
 const config = require('./configuration');
 const Log = require('../_classes/logger');
+let logger = new Log();
 
 // ***** AUTHENTICATION *****
 
@@ -20,7 +21,6 @@ const Log = require('../_classes/logger');
  */
 
 module.exports.login = async function(oid){
-    let logger = new Log();
     try{
         let request = new Req();
         await request.setAuthorization(oid);
@@ -293,7 +293,6 @@ module.exports.statusRemoteEventChannel = async function(oid, remote_oid, eid){
  * @returns {error: boolean, message: string} 
  */
 module.exports.subscribeRemoteEventChannel = async function(oid, remote_oid, eid){
-    let logger = new Log();
     try{
         let request = new Req();
         await request.setAuthorization(oid);
@@ -316,7 +315,6 @@ module.exports.subscribeRemoteEventChannel = async function(oid, remote_oid, eid
  * @returns {error: boolean, message: string} 
  */
 module.exports.unsubscribeRemoteEventChannel = async function(oid, remote_oid, eid){
-    let logger = new Log();
     try{
         let request = new Req();
         await request.setAuthorization(oid);
